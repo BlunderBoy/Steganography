@@ -1,0 +1,53 @@
+Observatie: am aflat tarziu de existenta functiei print_image asa ca nu am 
+folosit-o decat la taskul 3 si la taskul 4. Am aflat ca print_image apelat fara
+parametri afiseaza antetul, asa ca am apelat-o cu 0, 0, 0 ca sa fiu sigur ca nu
+mai apar spatii in plus.
+
+	La task-urile 1,2,6 in care nu folosesc print_image folosesc ebx matricea, 
+ecx i, edx j. Tot timpul ecx si edx au valori mici, intre 0 si [lungime] cand 
+fac printarea pun in ecx = ecx * lungime * 4 + edx * 4. 
+
+Taskul 1:
+	Trec cu un for(for(for)) prin toate cheile si prin toata matricea. Daca
+valoarea din matrice XOR-ata cu o anumita cheie imi da litera "r", o verific si 
+pe urmatoarea daca e "e" si tot asa pana verific tot stringul. Cand gasesc
+"revient" salvez linia si cheia, shiftand cheia 16 biti in sus partea high a lui
+eax si linia o pun in partea low a lui eax. In main (ca sa apelez functia si la)
+task-ul 2 printez mesajul si apoi cheia si randul.
+
+Taskul 2:
+	Ma folosesc de functia de la task-ul trecut ca sa aflu cheia si linia si 
+apoi printez sub linia aia mesajul XOR-at doar cu cheia noua dupa ce o calculez.
+Am 2 label-uri nu_printa_mesaj_ascuns: si mesaj_ascuns: cu care printez fiecare
+element in functie de mesaj. Am salvat proverbul ce trebuie printat sub linia
+veche in .data.
+
+Taskul 3:
+	Salvez toate stringurile in .data de la toate encodarile (chiar si unele
+nefolositoare). Am aflat cam pe acum ca exista print_image si am incercat sa o
+folosesc. E super simplu sa ma folosesc doar de indicele primte de functie si 
+sa-l inmultesc cu 4 pentru ca maricea in memorie este un vector. Am multe
+comparari si in fiecare jump dupa comparare suprascriu matricea originala
+octet cu octet. La final dau print_img cu parametri si mi se afiseaza matricea.
+
+Taskul 4:
+	La encodarea cu LSB m-am folosit din nou de id-ul primit de functie si l-am
+imultit cu 4 si am parcurs ca un vector. Am parcurs mesajul, pentru fiecare
+cu litera cu un 1 pe care il tot shiftam in jos de la 128(1000 0000) si 
+verificam cu test daca trebuie pus 1 sau 0 pe lsb la octetul cu indicele ecx din
+matrice. Am facut setarea cu 1 cu un AND cu masca 1 si setarea cu 0 cu un 
+OR cu masca 254 (1111 1110).
+
+Taskul 5:
+	La taskul 5, de 8 ori -> setam primul bit 1 sau 0 din edx si shiftam cu 1.
+Daca edx dupa aceste 8 repetari era 0, ieseam din loop, daca nu era 0 il 
+printam.
+
+Taskul 6:
+	Task-ul acesta a fost relativ usurel deoarece stiam sa printez o matrice
+cu 2 for-uri deja. Am printat prima linie ca sa nu am treaba cu ea si am pornit
+for-urile de la 1 pana la lungime-1 si latime-1. Pentru fiecare valoare din 
+acest interval (fara prima si ultima linie si fara prima si ultima coloana) am
+calculat media aritmetica a celor 5 valori si am printat-o. Aici nu prea puteam
+sa suprascriu matricea veche pentru ca-mi afecta fostele valori. La final 
+trebuie sa printez si ultima linie, lucru pe care il fac dupa for-uri.
